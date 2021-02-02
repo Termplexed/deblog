@@ -36,28 +36,44 @@ This adds the following commands that can be used in script for easier and clean
 In script one want to log 
 
 ```vim
-
 " Load all log commands
 for c in g:Deblog2.boot() | exe c | endfor
+LLOG "Loaded Deblog functions"
 
-fun! s:bar(arg)
+fun! s:bar(a1, a2)
 	" log arguments
-	LLOG "with: " . string(a:arg)
+	LLOG "with: " . string(a:)
 endfun
 
+LLOG "Creating the dict s:foo"
 " A sample dict
-let s:foo = { 'a': 3.14, 'b': "hello", 'c': [1, 2, 3], 'd': function('s:bar') }
+let s:foo = {
+	\ 'some': 3.14,
+	\ 'things': "hello",
+	\ 'and': 113.14,
+	\ 'can': v:false,
+	\ 'canz': v:true,
+	\ 'other': [1, 2, 3],
+	\ 'what': function('s:bar'),
+	\ 'void': v:null,
+	\ }
 
+LLOG "Dumping it ..."
 " Dump the object s:foo
 DUMP s:foo
 
+LLOG "Calling s:bar()"
 " Call function which is logging
-call s:bar([22,42])
+call s:bar([22, 42], '3ez')
+
+QLOG "I am Quote logged"
+call g:Deblog2.spew('Bye Bye!')
+
 ```
 
 Result:
 
-<img alt="Code sample result" src="https://raw.githubusercontent.com/Termplexed/res/master/img/deblog-sample-02.png" />
+<img alt="Code sample result" src="https://raw.githubusercontent.com/Termplexed/res/master/img/deblog-sample-03.png" />
 
 
 ## Environment
