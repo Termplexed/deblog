@@ -29,6 +29,7 @@ This adds the following commands that can be used in script for easier and clean
 * `LOG`   : Plain logging
 * `QLOG`  : Quoted plain logging
 * `EXLOG` : Log result of executing
+* *Other commands: see bottom of page*
 
 The various functions can also be called by `:call g:Deblog2. ....`, look at the source. Notable functions:
 
@@ -90,7 +91,7 @@ The commands can also be executed from commandline, e.g:
     :DUMP s:
 
 
-## View log
+## View log and other commands
 
 Typically do `tail -f log_file`. Log file defaults to [`$HOME/.vim/my_deblog.log`](https://github.com/Termplexed/deblog/blob/41057a42e0b1e6cd2fd407c646c1adf40bd911f4/plugin/deblog.vim#L72)
 
@@ -100,6 +101,10 @@ Look at [s:shells](https://github.com/Termplexed/deblog/blob/41057a42e0b1e6cd2fd
 
 Selected shell is set at load time to `g:Deblog.shell`  and defaults to [`xterm`](https://github.com/Termplexed/deblog/blob/41057a42e0b1e6cd2fd407c646c1adf40bd911f4/plugin/deblog.vim#L78)
 
+Other commands:
+
+* `MUTE` : Stop writing to log file
+* `UNMUTE` : Resume logging
 
 
 
