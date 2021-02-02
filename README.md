@@ -97,7 +97,7 @@ Typically do `tail -f log_file`. Log file defaults to [`$HOME/.vim/my_deblog.log
 
 Optionally do `:DEBLOGSHELLTAIL` from vim to open a predefined shell.
 
-Look at [s:shells](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L43 for specifications.
+Look at [`s:shells`](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L43) for specifications.
 
 Selected shell is set at load time to `g:Deblog.shell`  and defaults to [`xterm`](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L78)
 
