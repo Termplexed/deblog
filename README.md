@@ -40,15 +40,25 @@ In script one want to log
 " Load all log commands
 for c in g:Deblog2.boot() | exe c | endfor
 
+fun! s:bar(arg)
+	" log arguments
+	LLOG "with: " . string(a:arg)
+endfun
+
+" A sample dict
+let s:foo = { 'a': 3.14, 'b': "hello", 'c': [1, 2, 3], 'd': function('s:bar') }
+
 " Dump the object s:foo
 DUMP s:foo
 
-fun! s:bar(arg)
-    LLOG "with: " . a:x
-endfun
-
-
+" Call function which is logging
+call s:bar([22,42])
 ```
+
+Result:
+
+<img alt="Code sample result" src="https://raw.githubusercontent.com/Termplexed/res/master/img/deblog-sample-02.png" />
+
 
 ## Environment
 
