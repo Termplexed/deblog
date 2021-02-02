@@ -64,7 +64,7 @@ let s:shells = {
 " cmd_shell: shell config to use for :DEBLOGSHELLTAIL (See above s:shells)
 "
 let s:Deblog2 = {
-	\ 'version'     : '1.1.4',
+	\ 'version'     : '0.1.1',
 	\ 'public_name' : 'g:Deblog2',
 	\ 'cnf'         : { },
 	\ 'strapped'    : 0,
@@ -164,16 +164,17 @@ function! s:Deblog2.spew(msg, ...) dict
 	endif
 endfunction
 let s:colors = {
-	\ 'number' : 'red',
-	\ 'string' : 'yellow',
-	\ 'fun'    : 'blue',
-	\ 'list'   : 'green',
-	\ 'dict'   : 'green',
-	\ 'bool'   : 'cyan',
-	\ 'null'   : 'red',
-	\ 'job'    : '',
-	\ 'chan'   : '',
-	\ 'blob'   : 'white'
+	\ 'num'   : 'red',
+	\ 'str'   : 'yellow',
+	\ 'fun'   : 'blue',
+	\ 'list'  : 'green',
+	\ 'dict'  : 'green',
+	\ 'float' : 'magenta',
+	\ 'bool'  : '1;cyan',
+	\ 'null'  : '1;red',
+	\ 'job'   : 'white',
+	\ 'chan'  : 'white',
+	\ 'blob'  : 'white'
 \}
 
 " Return
@@ -208,46 +209,54 @@ function! s:Deblog2.objdump(name, obj, ...) dict
 	let indent = a:0 > 0 ? a:1 : 0
 	let wn = -20 - 9
 	let wv = -29 + indent
-	let color = get(s:colors, type(a:obj), '')
+	let cd = 'white'
 	let fob = []
 	if type(a:obj) == type(function("tr"))
 		let fob = self.fun_foo(a:obj)
 	endif
 	let name = s:C.bword(a:name, 'white')
 	if type(a:obj) == type(0)                   " Number     t=0
+		let color = get(s:colors, 'num', cd)
 		"let name = indent ? string(a:name) : a:name
 		let wv -= 9
 		call self.spew(printf(
 			\ '%*s%*s :  %*s " %s',
 			\ indent, "",
 			\ wn, name,
-			\ wv, s:C.word(a:obj+0, 'red'),
+			\ wv, s:C.word(a:obj+0, color),
 			\ "Number"
 			\ ))
 	elseif type(a:obj) == type("")              " String     t=1
 		"let name = indent ? string(a:name) : a:name
+		let color = get(s:colors, 'str', cd)
 		let wv -= 10
 		call self.spew(printf(
 			\ '%*s%*s : %*s " %s',
 			\ indent, "",
 			\ wn, name,
-			\ wv, string(s:C.word(a:obj, 'green')),
+			\ wv, string(s:C.word(a:obj, color)),
 			\ "String"
 			\ ))
 	elseif type(a:obj) == type(function("tr"))  " Funcref    t=2
+		let color = get(s:colors, 'fun', cd)
+		let wv -= 9
 		call self.spew(printf(
 			\ '%*s%*s :  %*s " %s (%s)',
 			\ indent, "",
 			\ wn, '.' . name,
-			\ wv, '(' . fob[1] . ')',
+			\ wv, '(' . s:C.word(fob[1], color) . ')',
 			\ "Funcref", fob[0]
 			\ ))
 	elseif type(a:obj) == type([])              " List       t=3
 		"let name = indent ? string(a:name) : a:name
+		let color = get(s:colors, 'list', cd)
+		let bo = s:C.word("[", color)
+		let bc = s:C.word("]", color)
 		call self.spew(printf(
-			\ '%*s%*s [  %*s " %s',
+			\ '%*s%*s %s  %*s " %s',
 			\ indent, "",
 			\ wn, name ,
+			\ bo,
 			\ wv, "",
 			\ "List"
 			\ ))
@@ -256,43 +265,55 @@ function! s:Deblog2.objdump(name, obj, ...) dict
 			call self.objdump(i, el, indent + 2)
 			let i += 1
 		endfor
-		call self.spew(printf('%*s]', indent, ""))
+		call self.spew(printf('%*s' . bc, indent, ""))
 		"call self.spew_list(a:name, a:obj, indent)
 	elseif type(a:obj) == type({})              " Dictionary t=4
 		"let name = indent ? string(a:name) : a:name
+		let color = get(s:colors, 'dict', cd)
+		let bo = s:C.word("{", color)
+		let bc = s:C.word("}", color)
 		call self.spew(printf(
 			\ '%*s%*s  %*s " %s',
 			\ indent, "",
-			\ wn, a:name . " {",
-			\ wv, "",
+			\ wn, a:name . " " . bo,
+			\ 2, "",
 			\ "Dictionary"
 			\ ))
 		for k in keys(a:obj)
 			call self.objdump(k, a:obj[k], indent + 2)
 		endfor
-		call self.spew(printf('%*s}', indent, ""))
+		call self.spew(printf('%*s' . bc, indent, ""))
 	elseif type(a:obj) == type(0.0)             " Float      t=5
+		"let wv += 11
+		let wv -= 9
+		let color = get(s:colors, 'float', cd)
+		let vv = s:C.word(printf("%.4f", a:obj), color)
 		call self.spew(printf(
-			\ '%*s%*s :  %*f " %s',
+			\ '%*s%*s :  %*s " %s',
 			\ indent, "",
-			\ wn, a:name,
-			\ wv, a:obj,
+			\ wn, name,
+			\ wv, vv,
 			\ "Float"
 			\ ))
 	elseif type(a:obj) == type(v:false)         " Boolean   t=6
+		let wv -= 11
+		let color = get(s:colors, 'bool', cd)
+		let vv = s:C.word((a:obj ? 'TRUE' : 'FALSE'), color)
 		call self.spew(printf(
 			\ '%*s%*s :  %*s " %s',
 			\ indent, "",
-			\ wn, a:name,
-			\ wv, (a:obj ? 'TRUE' : 'FALSE'),
+			\ wn, name,
+			\ wv, vv,
 			\ "Boolean"
 			\ ))
 	elseif type(a:obj) == type(v:null)          " NULL     t=7
+		let wv -= 11
+		let color = get(s:colors, 'null', cd)
 		call self.spew(printf(
 			\ '%*s%*s :  %*s " %s',
 			\ indent, "",
-			\ wn, a:name,
-			\ wv, (a:obj == v:null ? 'NULL' : 'NONE'),
+			\ wn, name,
+			\ wv, s:C.word((a:obj == v:null ? 'NULL' : 'NONE'), color),
 			\ "None"
 			\ ))
 	elseif type(a:obj) == v:t_job               " Job       t=8
@@ -300,7 +321,7 @@ function! s:Deblog2.objdump(name, obj, ...) dict
 		call self.spew(printf(
 			\ '%*s%*s {  %*s " %s',
 			\ indent, "",
-			\ wn, a:name,
+			\ wn, name,
 			\ wv, "",
 			\ "Job"
 			\ ))
@@ -313,7 +334,7 @@ function! s:Deblog2.objdump(name, obj, ...) dict
 		call self.spew(printf(
 			\ '%*s%*s {  %*s " %s',
 			\ indent, "",
-			\ wn, a:name,
+			\ wn, name,
 			\ wv, "",
 			\ "Channel"
 			\ ))
@@ -326,7 +347,7 @@ function! s:Deblog2.objdump(name, obj, ...) dict
 		call self.spew(printf(
 			\ '%*s%*s :  %*s " %s',
 			\ indent, "",
-			\ wn, a:name,
+			\ wn, name,
 			\ wv, blob,
 			\ "Blob"
 			\ ))
@@ -334,7 +355,7 @@ function! s:Deblog2.objdump(name, obj, ...) dict
 		call self.spew(printf(
 			\ '%*s%*s :  %*s " %s => type %d',
 			\ indent, "",
-			\ wn, a:name,
+			\ wn, name,
 			\ wv, string(a:obj),
 			\ "ERR.Unknown",
 			\ type(a:obj)
@@ -452,6 +473,8 @@ endfunction
 
 function! s:Deblog2.res_fun(s)
 	let as = split(a:s, '\.\.')
+	"call s:Deblog.dump('a:s', a:s)
+	"call s:Deblog.dump('as', as)
 	let fnr = as[-1]
 	let fnra = matchstr(fnr, '^\(function \)\?\zs.\+$')
 	let fnr = fnra == '' ? fnr : fnra
@@ -470,7 +493,16 @@ endfunction
 function! s:Deblog2.cmd_call(fn, line, cmd, ...)
 	"call self.spew(a:fn)
 	if a:fn =~ '^/'
-		let fnd = [ fnamemodify(a:fn, self.cnf.fn_expand), '' ]
+		let fnd = split(a:fn, '\.vim\[[0-9]\+\]\.\.')
+		if len(fnd) > 1
+			try
+				let fnd = self.res_fun(a:fn)
+			catch
+				let fnd = [a:fn, '']
+			endtry
+		else
+			let fnd = [ fnamemodify(a:fn, self.cnf.fn_expand), '' ]
+		endif
 	else
 		try
 			let fnd = self.res_fun(a:fn)
