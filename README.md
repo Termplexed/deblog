@@ -14,9 +14,8 @@ Log debug information from script and commandline to file, to use with tail
 <img alt="deblog sample" src="https://github.com/Termplexed/res/blob/master/img/deblog-sample-01.png" />
 
 1. source or add the `deblog.vim` file in a directory where it is sourced at startup
-2. Call the various functions by: `g:Deblog2.<FUN>(args)`
 
-You can add commands by calling boot in a script of your choosing:
+2. In target script: add commands by calling boot in a script of your choosing:
 
 ```vim
 for c in g:Deblog2.boot() | exe c | endfor
@@ -24,12 +23,18 @@ for c in g:Deblog2.boot() | exe c | endfor
 
 This adds the following commands that can be used in script for easier and cleaner logging:
 
-* DUMP  : Dump anything
-* LLOG  : Log with time, file and line information
-    * LLOG2, LLOG3 and LLOG4 are have same effect, but as each command can be silenced one can turn logging on / off for selected information.
-* LOG   : Plain logging
-* QLOG  : Quoted plain logging
-* EXLOG : Log result of executing
+* `DUMP`  : Dump anything
+* `LLOG`  : Log with time, file and line information
+    * `LLOG2`, `LLOG3` and `LLOG4` are have same effect, but as each command can be silenced one can turn logging on / off for selected information.
+* `LOG`   : Plain logging
+* `QLOG`  : Quoted plain logging
+* `EXLOG` : Log result of executing
+
+The various functions can also be called by `:call g:Deblog2. ....`, look at the source. Notable functions:
+
+* `.spew(msg)`
+* `.objdump(name, obj)`
+
 
 ## Example
 
@@ -80,7 +85,7 @@ Result:
 
 If you want to log local script variables etc. by command, the *"Load all log commands"* have to be done in *that* script file!
 
-The commands can also be executed fomr commandline, e.g:
+The commands can also be executed from commandline, e.g:
 
     :DUMP s:
 
