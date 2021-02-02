@@ -21,7 +21,7 @@ Log debug information from script and commandline to file, to use with tail
 for c in g:Deblog2.boot() | exe c | endfor
 ```
 
-This adds the following commands that can be used in script for easier and cleaner logging:
+This adds [the following commands](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L541) that can be used in script for easier and cleaner logging:
 
 * `DUMP`  : Dump anything
 * `LLOG`  : Log with time, file and line information
@@ -33,8 +33,8 @@ This adds the following commands that can be used in script for easier and clean
 
 The various functions can also be called by `:call g:Deblog2. ....`, look at the source. Notable functions:
 
-* `.spew(msg)`
-* `.objdump(name, obj)`
+* [`.spew(msg)`](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L147)
+* [`.objdump(name, obj)`](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L208)
 
 
 ## Example
@@ -93,18 +93,18 @@ The commands can also be executed from commandline, e.g:
 
 ## View log and other commands
 
-Typically do `tail -f log_file`. Log file defaults to [`$HOME/.vim/my_deblog.log`](https://github.com/Termplexed/deblog/blob/41057a42e0b1e6cd2fd407c646c1adf40bd911f4/plugin/deblog.vim#L72)
+Typically do `tail -f log_file`. Log file defaults to [`$HOME/.vim/my_deblog.log`](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L72)
 
 Optionally do `:DEBLOGSHELLTAIL` from vim to open a predefined shell.
 
-Look at [s:shells](https://github.com/Termplexed/deblog/blob/41057a42e0b1e6cd2fd407c646c1adf40bd911f4/plugin/deblog.vim#L43) for specifications.
+Look at [s:shells](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L43 for specifications.
 
-Selected shell is set at load time to `g:Deblog.shell`  and defaults to [`xterm`](https://github.com/Termplexed/deblog/blob/41057a42e0b1e6cd2fd407c646c1adf40bd911f4/plugin/deblog.vim#L78)
+Selected shell is set at load time to `g:Deblog.shell`  and defaults to [`xterm`](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L78)
 
 Other commands:
 
-* `MUTE` : Stop writing to log file
-* `UNMUTE` : Resume logging
+* `DEBMUTE` : Stop writing to log file
+* `DEBUNMUTE` : Resume logging
 
 
 
