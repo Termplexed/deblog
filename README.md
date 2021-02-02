@@ -29,7 +29,7 @@ This adds [the following commands](https://github.com/Termplexed/deblog/blob/d63
 * `LOG`   : Plain logging
 * `QLOG`  : Quoted plain logging
 * `EXLOG` : Log result of executing
-* *Other commands: see bottom of page*
+* *Other commands: [see bottom of page](#view-log-and-other-commands)*
 
 The various functions can also be called by `:call g:Deblog2. ....`, look at the source. Notable functions:
 
