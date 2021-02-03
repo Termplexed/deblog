@@ -46,11 +46,20 @@ Globals, strings etc. can be logged form anywhere.
 This adds [the following commands](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L541) that can be used in script for easy and clean logging:
 
 * `DUMP`  : Dump anything
+    * `DUMP "Some objects: ", s:my_obja, s:other_obj`
+    * `DUMP s:foo`
 * `LLOG`  : Log with time, file and line information
-    * `LLOG2`, `LLOG3` and `LLOG4` : same effect, but as each command can be silenced one can turn logging on / off for selected information.
-* `LOG`   : Plain logging
-* `QLOG`  : Quoted plain logging
+    * `LLOG "The ID=" . string(s:foo.id)`
+* `LLOG2`, `LLOG3` and `LLOG4` : same as `LLOG`, but as each command can be silenced one can turn logging on / off for selected information.
+* `LOG`   : Plain logging. Does not log filename, linenumber, function, ...
+    * `LOG "Hello"`
+* `QLOG`  : Quoted plain logging. Same as `LOG` but output is wrapped in quotes.
+    * `QLOG "Hello"`
 * `EXLOG` : Log result of executing
+    * `EXLOG reltime()`
+    * `EXLOG :messages`
+    * `EXLOG :verbose function`
+    
 * *Other commands: [see bottom of page](#view-log---and-other-commands)*
 
 The various functions can also be called by `:call g:Deblog2. ....`, look at the source and / or the [call section](#using-calls). Notable functions:
