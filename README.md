@@ -117,8 +117,6 @@ With [`ntail`](https://github.com/Termplexed/deblog/blob/e0c02d6be444dcd6aa582ff
 'uxterm -geometry 85x90-0+0 -T "Deblog /home/foo/.vim/my_deblog.log" -e "tail 20 -f /home/foo/.vim/my_deblog.log" &'
 ```
 
-Ampersand at end is added on execution
-
 Other commands:
 
 * `DEBMUTE` : Stop writing to log file
