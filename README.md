@@ -45,24 +45,32 @@ Globals, strings etc. can be logged form anywhere.
 
 This adds [the following commands](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L541) that can be used in script for easy and clean logging:
 
-* `DUMP`  : Dump anything
-    * `DUMP "Some objects: ", s:my_obja, s:other_obj`
-    * `DUMP s:foo`
-* `LLOG`  : Log with time, file and line information
-    * `LLOG "The ID=" . string(s:foo.id)`
-* `LLOG2`, `LLOG3` and `LLOG4` : same as `LLOG`, but as each command can be silenced one can turn logging on / off for selected information.
-* `LOG`   : Plain logging. Does not log filename, linenumber, function, ...
-    * `LOG "Hello"`
-* `QLOG`  : Quoted plain logging. Same as `LOG` but output is wrapped in quotes.
-    * `QLOG "Hello"`
-* `EXLOG` : Log result of executing
-    * `EXLOG reltime()`
-    * `EXLOG :messages`
-    * `EXLOG :verbose function`
-    
-* *Other commands: [see bottom of page](#view-log---and-other-commands)*
 
-The various functions can also be called by `:call g:Deblog2. ....`, look at the source and / or the [call section](#using-calls). Notable functions:
+| Command | Description / Examples |
+| :--- | :--- |
+| `DUMP` | Dump anything |
+| | <quote> `DUMP "Some objects: ", s:my_obja, s:other_obj` </quote> |
+| | <quote> `DUMP s:foo` </quote> |
+| `LLOG` | Log with file:line and call information |
+| | <quote> `LLOG "The ID=" . string(s:foo.id)`</quote> |
+| `LLOG2` | |
+| `LLOG3` | |
+| `LLOG4` | same as `LLOG`, but as each command can be silenced one can turn logging on / off for selected information. |
+| `LOG` | Plain logging. Does not log filename, linenumber, function, ... |
+| | <quote> `LOG "Hello"` </quote> |
+| `QLOG` | Quoted plain logging. Same as `LOG` but output is wrapped in quotes. |
+| | <quote>`QLOG "Hello"` </quote> |
+| `EXLOG` | Log result of executing |
+| | <quote> `EXLOG reltime()` </quote> |
+| | <quote> `EXLOG :messages` </quote> |
+| | <quote> `EXLOG :verbose function` </quote> |
+| | |
+| `DEBLOGSHELLTAIL` | Open pre-defined shell with `tail N -f log-file` [(read here)](#view-log---and-other-commands) |
+| `DEBMUTE` | Mute output: do not write to log file. Note that the deblog script functions are still called. <br/>To prevent calling one have to call `g:Deblog2.mute()`, but this result in loss of environment if un-muting from different script. See [Using calls](#using-calls)  |
+| `DEBUNMUTE` | Un-mute output: write to log file  |
+
+
+The various functions can also be called by `:call g:Deblog2. ....`, look at the source and / or the [Using calls section](#using-calls). Notable functions:
 
 * [`.spew(msg)`](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L147)
 * [`.objdump(name, obj)`](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L208)
