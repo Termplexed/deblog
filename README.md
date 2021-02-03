@@ -117,6 +117,8 @@ The commands can also be executed from commandline, e.g:
 
     :DUMP s:
 
+will dump the script environment from where the `command`s was defined.
+
 [<sup>TOC</sup>](#toc)
 
 ## View log - and other commands
