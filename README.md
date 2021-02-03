@@ -1,15 +1,22 @@
-```
-               ███████           ██       ██
-              ░██░░░░██         ░██      ░██           █████
-              ░██    ░██  █████ ░██      ░██  ██████  ██░░░██
-              ░██    ░██ ██░░░██░██████  ░██ ██░░░░██░██  ░██
-              ░██    ░██░███████░██░░░██ ░██░██   ░██░░██████
-              ░██    ██ ░██░░░░ ░██  ░██ ░██░██   ░██ ░░░░░██
-              ░███████  ░░██████░██████  ███░░██████   █████
+<div align="center">
+<pre>
+ ███████           ██       ██                 
+░██░░░░██         ░██      ░██           █████ 
+░██    ░██  █████ ░██      ░██  ██████  ██░░░██
+░██    ░██ ██░░░██░██████  ░██ ██░░░░██░██  ░██
+░██    ░██░███████░██░░░██ ░██░██   ░██░░██████
+░██    ██ ░██░░░░ ░██  ░██ ░██░██   ░██ ░░░░░██
+░███████  ░░██████░██████  ███░░██████   █████ 
+</pre>
+</div>
 
-```
+<p align="center">
+<sup>There is no I in team, but there is an U in fun.</sup>
+</p>
 
-Log debug information from script and commandline to file, to use with tail
+---
+
+*Log debug information from <kbd>vim</kbd>-scripts and commandline to file. Typically to use in combination with <kbd>tail</kbd>.*
 
 * Show execution time from last entry
 * Accumulated execution time *(Not excluding the rather heavy overhead from deblog)*
@@ -17,6 +24,12 @@ Log debug information from script and commandline to file, to use with tail
 * Absolute linenumber of call
 * Calling function (if any)
 * Can dump objects
+
+---
+
+<img alt="deblog sample" src="https://github.com/Termplexed/res/blob/master/img/deblog-sample-01.png" />
+
+---
 
 ### TOC
 
@@ -27,7 +40,7 @@ Log debug information from script and commandline to file, to use with tail
 * [The boot function](#the-boot-function)
 * [Using calls](#using-calls)
 
-<img alt="deblog sample" src="https://github.com/Termplexed/res/blob/master/img/deblog-sample-01.png" />
+---
 
 ## Basic intro
 
@@ -46,28 +59,26 @@ Globals, strings etc. can be logged form anywhere.
 This adds [the following commands](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L541) that can be used in script for easy and clean logging:
 
 
-| Command | Description / Examples |
-| :--- | :--- |
-| `DUMP` | Dump anything |
-| | <quote> `DUMP "Some objects: ", s:my_obja, s:other_obj` </quote> |
-| | <quote> `DUMP s:foo` </quote> |
-| `LLOG` | Log with file:line and call information |
-| | <quote> `LLOG "The ID=" . string(s:foo.id)`</quote> |
-| `LLOG2` | |
-| `LLOG3` | |
-| `LLOG4` | same as `LLOG`, but as each command can be silenced one can turn logging on / off for selected information. |
-| `LOG` | Plain logging. Does not log filename, linenumber, function, ... |
-| | <quote> `LOG "Hello"` </quote> |
-| `QLOG` | Quoted plain logging. Same as `LOG` but output is wrapped in quotes. |
-| | <quote>`QLOG "Hello"` </quote> |
-| `EXLOG` | Log result of executing |
-| | <quote> `EXLOG reltime()` </quote> |
-| | <quote> `EXLOG :messages` </quote> |
-| | <quote> `EXLOG :verbose function` </quote> |
+| Command          | Description / Examples |
+| :---:            | :---                   |
 | | |
-| `DEBLOGSHELLTAIL` | Open pre-defined shell with `tail N -f log-file` [(read here)](#view-log---and-other-commands) |
-| `DEBMUTE` | Mute output: do not write to log file. Note that the deblog script functions are still called. <br/>To prevent calling one have to call `g:Deblog2.mute()`, but this result in loss of environment if un-muting from different script. See [Using calls](#using-calls)  |
-| `DEBUNMUTE` | Un-mute output: write to log file  |
+| <kbd>DUMP</kbd>  | Dump anything |
+|                  | ` DUMP "Some objects: ", s:my_obja, s:other_obj` <br> `DUMP s:foo`  |
+| <kbd>LLOG</kbd><br><kbd>LLOG2</kbd><br><kbd>LLOG3</kbd><br><kbd>LLOG4</kbd>  | Log with file:line and call information<br>each command can be silenced one can turn logging on / off for selected information. |
+|                  | `LLOG "The ID=" . string(s:foo.id)` |
+| <kbd>LOG</kbd>   | Plain logging. Does not log filename, linenumber, function, ... |
+|                  | `LOG "Hello"` |
+| <kbd>QLOG</kbd>  | Quoted plain logging. Same as `LOG` but output is wrapped in quotes. |
+|                  | `QLOG "Hello"` |
+| <kbd>EXLOG</kbd> | Log result of executing |
+|                  | `EXLOG reltime()`<br>`EXLOG :messages`<br>`EXLOG :verbose function` |
+| | |
+| | |
+| <kbd>DEBLOGSHELLTAIL</kbd> | Open pre-defined shell with `tail N -f log-file` [(read here)](#view-log---and-other-commands) |
+| | |
+| <kbd>DEBMUTE</kbd>         | Mute output: do not write to log file. Note that the deblog script functions are still called. <br/>To prevent calling one have to call `g:Deblog2.mute()`, but this result in loss of environment if un-muting from different script. See [Using calls](#using-calls)  |
+| | |
+| <kbd>DEBUNMUTE</kbd>       | Un-mute output: write to log file  |
 
 
 The various functions can also be called by `:call g:Deblog2. ....`, look at the source and / or the [Using calls section](#using-calls). Notable functions:
@@ -76,6 +87,8 @@ The various functions can also be called by `:call g:Deblog2. ....`, look at the
 * [`.objdump(name, obj)`](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L208)
 
 [<sup>TOC</sup>](#toc)
+
+---
 
 ## Example
 
@@ -126,6 +139,8 @@ Result:
 
 [<sup>TOC</sup>](#toc)
 
+---
+
 ## Environment
 
 If you want to log local script variables etc. *by command*, the *"Load all log commands"* have to be done in *that* script file!
@@ -169,6 +184,8 @@ Other commands:
 
 [<sup>TOC</sup>](#toc)
 
+---
+
 ## The boot function
 
 The `g:Deblog.boot([COMMANDS])` function return a list of pre-defined command definitions that can be executed.
@@ -180,6 +197,8 @@ If noone given all will be returned.
 `boot()` always defines `DEBLOGSHELLTAIL`, `DEBMUTE` and `DEBUNMUTE`. These are not returned in the call.
 
 [<sup>TOC</sup>](#toc)
+
+---
 
 ## Using calls
 
