@@ -33,7 +33,7 @@ Log debug information from script and commandline to file, to use with tail
 
 1. source or add the `deblog.vim` file in a directory where it is sourced at startup
 
-2. In target script: add commands by calling boot in a script of your choosing:
+2. In target script: add `command`s by calling boot in a script of your choosing:
 
 ```vim
 for c in g:Deblog2.boot() | exe c | endfor
