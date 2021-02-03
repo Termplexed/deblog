@@ -54,6 +54,7 @@ The various functions can also be called by `:call g:Deblog2. ....`, look at the
 * [`.spew(msg)`](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L147)
 * [`.objdump(name, obj)`](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L208)
 
+[<sup>TOC</sup>](#toc)
 
 ## Example
 
@@ -102,6 +103,8 @@ Result:
 1. Column one show time passed since last log entry. 
 2. Column two show the time accumulated since last time reset (header). The time resets if there is more then [`htime`](https://github.com/Termplexed/deblog/blob/e0c02d6be444dcd6aa582ffefbce72eb7b17363e/plugin/deblog.vim#L74) seconds since last call to print. Defaults to 0.5sec if Vim has reltime, else 1sec.
 
+[<sup>TOC</sup>](#toc)
+
 ## Environment
 
 If you want to log local script variables etc. by command, the *"Load all log commands"* have to be done in *that* script file!
@@ -110,6 +113,7 @@ The commands can also be executed from commandline, e.g:
 
     :DUMP s:
 
+[<sup>TOC</sup>](#toc)
 
 ## View log - and other commands
 
@@ -140,7 +144,7 @@ Other commands:
 * `DEBMUTE` : Stop writing to log file
 * `DEBUNMUTE` : Resume logging
 
-
+[<sup>TOC</sup>](#toc)
 
 
 
