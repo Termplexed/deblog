@@ -11,7 +11,23 @@
 
 Log debug information from script and commandline to file, to use with tail
 
+* Show execution time from last entry
+* Accumulated execution time
+* File
+* Absolute linenumber of call
+* Calling function (if any)
+* Can dump objects
+
+### TOC
+
+* [Basic intro](#basic-intro)
+* [Example](#example)
+* [Environment](#environment)
+* [View log and other commands](#view-log---and-other-commands)
+
 <img alt="deblog sample" src="https://github.com/Termplexed/res/blob/master/img/deblog-sample-01.png" />
+
+## Basic intro
 
 1. source or add the `deblog.vim` file in a directory where it is sourced at startup
 
@@ -20,6 +36,8 @@ Log debug information from script and commandline to file, to use with tail
 ```vim
 for c in g:Deblog2.boot() | exe c | endfor
 ```
+
+***NB! Due to scopes this has to be done in the file you want to access/log local script variables. This is a big limitation.*** Globals, strings etc. can be logged form anywhere.
 
 This adds [the following commands](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L541) that can be used in script for easier and cleaner logging:
 
@@ -93,7 +111,7 @@ The commands can also be executed from commandline, e.g:
     :DUMP s:
 
 
-## View log and other commands
+## View log - and other commands
 
 Typically do `tail -f log_file`. Log file defaults to [`$HOME/.vim/my_deblog.log`](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L72)
 
