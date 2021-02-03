@@ -12,7 +12,7 @@
 Log debug information from script and commandline to file, to use with tail
 
 * Show execution time from last entry
-* Accumulated execution time
+* Accumulated execution time *(Not excluding the rather heavy overhead from deblog)*
 * File
 * Absolute linenumber of call
 * Calling function (if any)
@@ -24,6 +24,8 @@ Log debug information from script and commandline to file, to use with tail
 * [Example](#example)
 * [Environment](#environment)
 * [View log and other commands](#view-log---and-other-commands)
+* [The boot function](#the-boot-function)
+* [Using calls](#using-calls)
 
 <img alt="deblog sample" src="https://github.com/Termplexed/res/blob/master/img/deblog-sample-01.png" />
 
@@ -37,19 +39,21 @@ Log debug information from script and commandline to file, to use with tail
 for c in g:Deblog2.boot() | exe c | endfor
 ```
 
-***NB! Due to scopes this has to be done in the file you want to access/log local script variables. This is a big limitation.*** Globals, strings etc. can be logged form anywhere.
+***NB! Due to scopes this has to be done in the file you want to access/log local script variables.*** This goes fro the *commands*, `call`s can be done with local script variables from any file, but wil not include file, linenumber etc.
 
-This adds [the following commands](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L541) that can be used in script for easier and cleaner logging:
+Globals, strings etc. can be logged form anywhere.
+
+This adds [the following commands](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L541) that can be used in script for easy and clean logging:
 
 * `DUMP`  : Dump anything
 * `LLOG`  : Log with time, file and line information
-    * `LLOG2`, `LLOG3` and `LLOG4` are have same effect, but as each command can be silenced one can turn logging on / off for selected information.
+    * `LLOG2`, `LLOG3` and `LLOG4` : same effect, but as each command can be silenced one can turn logging on / off for selected information.
 * `LOG`   : Plain logging
 * `QLOG`  : Quoted plain logging
 * `EXLOG` : Log result of executing
-* *Other commands: [see bottom of page](#view-log-and-other-commands)*
+* *Other commands: [see bottom of page](#view-log---and-other-commands)*
 
-The various functions can also be called by `:call g:Deblog2. ....`, look at the source. Notable functions:
+The various functions can also be called by `:call g:Deblog2. ....`, look at the source and / or the [call section](#using-calls). Notable functions:
 
 * [`.spew(msg)`](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L147)
 * [`.objdump(name, obj)`](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L208)
@@ -107,7 +111,7 @@ Result:
 
 ## Environment
 
-If you want to log local script variables etc. by command, the *"Load all log commands"* have to be done in *that* script file!
+If you want to log local script variables etc. *by command*, the *"Load all log commands"* have to be done in *that* script file!
 
 The commands can also be executed from commandline, e.g:
 
@@ -146,6 +150,41 @@ Other commands:
 
 [<sup>TOC</sup>](#toc)
 
+## The boot function
 
+The `g:Deblog.boot([COMMANDS])` function return a list of pre-defined command definitions that can be executed.
 
+Optionally one can add a list as an argument with  selected commands one want to get. E.g. `["LLOG", "DUMP"]` will only return the commands for those.
 
+If noone given all will be returned.
+
+`boot()` always defines `DEBLOGSHELLTAIL`, `DEBMUTE` and `DEBUNMUTE`. These are not returned in the call.
+
+[<sup>TOC</sup>](#toc)
+
+## Using calls
+
+* `g:Deblog2.spew(str msg || [str msg, str msg, ...])` – write to logfile without using command
+* `g:Deblog2.objdump(str title, obj object)` – dump object
+* `g:Deblog2.evex(str expression)` – Execute `expression` and log result.
+
+* `g:Deblog2.shell([int ntail])` – Open shell with tail. `ntail` is number of lines to include at start.
+* `g:Deblog2.wipe()` – Try to remove deblog from environment.
+* `g:Deblog2.mute([COMMANS])` – Redirect calls to commands to a Nop function. Optionally *a list* of commands can be given as argument.
+* `g:Deblog2.unmute([COMMANDS])` – Returns a *list* of commands that can be executed to re-enable muted commands. NB! The environment from which they are executed wil become the environment where commands can read script variables.
+* `g:Deblog2.cmute()` – A soft mute. Calls will go trough, but nothing written to log file.
+* `g:Deblog2.cunmute()` – Re-enable writing to log file.
+
+If one want to log local script variables from multiple source files one way is to do:
+
+```vim
+call g:Deblog2.objdump("foo2", s:foo2)
+```
+
+and the like.
+
+This will *not* include script file or line numbers etc. You *could* add a separate, local command for each script file and call [`cmd_call()`](https://github.com/Termplexed/deblog/blob/09d9780f208b35d78a4830d9a95e16efd57c6c3e/plugin/deblog.vim#L493).
+
+[<sup>TOC</sup>](#toc)
+
+Hack away.
