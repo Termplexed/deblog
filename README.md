@@ -81,6 +81,8 @@ Result:
 
 <img alt="Code sample result" src="https://raw.githubusercontent.com/Termplexed/res/master/img/deblog-sample-03.png" />
 
+1. Column one show time passed since last log entry. 
+2. Column two show the time accumulated since last time reset (header). The time resets if there is more then [`htime`](https://github.com/Termplexed/deblog/blob/e0c02d6be444dcd6aa582ffefbce72eb7b17363e/plugin/deblog.vim#L74) seconds since last call to print. Defaults to 0.5sec if Vim has reltime, else 1sec.
 
 ## Environment
 
@@ -100,6 +102,22 @@ Optionally do `:DEBLOGSHELLTAIL` from vim to open a predefined shell.
 Look at [`s:shells`](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L43) for specifications.
 
 Selected shell is set at load time to `g:Deblog.cmd_shell`  and defaults to [`uxterm`](https://github.com/Termplexed/deblog/blob/d63b8fb85ef3b73823c6705d5e002287421cef90/plugin/deblog.vim#L78). Modify to meet your needs.
+
+Ampersand [is added](https://github.com/Termplexed/deblog/blob/e0c02d6be444dcd6aa582ffefbce72eb7b17363e/plugin/deblog.vim#L389) on execution.
+
+The placeholders `#FILE#` and `#NTAIL#` are replaced with the name of the log-file and number of potentionally existing lines to show on start:
+
+```vim
+'uxterm -geometry 85x90-0+0 -T "Deblog #FILE#" -e "tail #NTAIL# -f #FILE#"'
+```
+
+With [`ntail`](https://github.com/Termplexed/deblog/blob/e0c02d6be444dcd6aa582ffefbce72eb7b17363e/plugin/deblog.vim#L79) set to 20 and `file` set to `/home/foo/.vim/my_deblog.log` result in:
+
+```vim
+'uxterm -geometry 85x90-0+0 -T "Deblog /home/foo/.vim/my_deblog.log" -e "tail 20 -f /home/foo/.vim/my_deblog.log" &'
+```
+
+Ampersand at end is added on execution
 
 Other commands:
 
